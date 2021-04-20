@@ -20,6 +20,8 @@ db.sequelize = sequelize
 db.users = require('./users.model.js')(sequelize, Sequelize)
 db.rooms = require('./rooms.model.js')(sequelize, Sequelize)
 db.userInRoom = require('./userInRoom.model.js')(sequelize, Sequelize)
+db.chats = require('./chats.model')(sequelize, Sequelize)
+
 
 db.users.belongsToMany(db.rooms, {
     through: db.userInRoom,
@@ -32,5 +34,7 @@ db.rooms.belongsToMany(db.users, {
     as: 'users',
     foreignKey: 'user_id',
 })
+
+db.rooms.hasMany(db.chats)
 
 module.exports = db;

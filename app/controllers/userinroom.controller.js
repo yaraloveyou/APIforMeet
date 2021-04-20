@@ -17,3 +17,19 @@ exports.findAll = (req, res) => {
             })
         })
 }
+
+exports.findOne = (req, res) => {
+    const room = req.params.room_id
+    const user = req.params.user_id
+
+    UserInRoom.findAll({where: [room, user]})
+        .then(data => {
+            res.send(data)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message | 'Неудалось найти ипользователя или комнату'
+            })
+        })
+}

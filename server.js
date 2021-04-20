@@ -22,6 +22,7 @@ db.sequelize.sync({ force: true }).then(() => {
 require('./app/routes/users.routes')(app)
 require('./app/routes/rooms.routes')(app)
 require('./app/routes/userInRoom.routes')(app)
+require('./app/routes/chats.routes')(app)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
