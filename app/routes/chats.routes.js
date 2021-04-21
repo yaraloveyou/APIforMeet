@@ -4,5 +4,5 @@ module.exports = (app) => {
 
     router.post('/', chats.create)
 
-    app.use('/api/chats', app)
+    app.use('/api/chats', router)
 }
