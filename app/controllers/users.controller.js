@@ -177,7 +177,7 @@ exports.login = async (req, res) => {
     }
 
     const token = generateJwt(user.id, username, password, user.role, user.published)
-    return res.json({ token })
+    return res.json({ token, user: user })
 }
 
 exports.check = async(req, res) => {

@@ -3,16 +3,40 @@ const Rooms = db.rooms
 const Users = db.users
 
 // Добавление новой записи в таблицу "Rooms"
-exports.create = (rooms) => {
-    return Rooms.create({
-        room_id: rooms.room_id,
-    })
-        .then(rooms => {
-            console.log('>> Запись таблицы \"Rooms\" успешно создана')
-            return rooms
+// exports.createRoom = (rooms) => {
+//     return Rooms.create({
+//         room_id: rooms.room_id,
+//     })
+//         .then(rooms => {
+//             console.log('>> Запись таблицы \"Rooms\" успешно создана')
+//             return rooms
+//         })
+//         .catch(err => {
+//             console.log('>> Ошибика создания новой записи \"Rooms\" ', err)
+//         })
+// }
+
+exports.create = (req, res) => {
+    if(!req.body.room_id) {
+        res.status(400).send({
+            message: 'Пустота'
+        })
+        return
+    }
+
+    const room = {
+        room_id: req.body.room_id
+    }
+
+    Rooms.create(room)
+        .then(data => {
+            res.send(data)
         })
         .catch(err => {
-            console.log('>> Ошибика создания новой записи \"Rooms\" ', err)
+            res.status(500).send({
+                message:
+                    err.message || 'Some errir occurred while creating the room'
+            })
         })
 }
 
@@ -42,8 +66,8 @@ exports.addUser = (roomsId, usersId) => {
 
 // Поиск всех записей таблицы "Rooms"
 exports.findAll = (req, res) => {
-    const room = req.query.username
-    let condition = room ? { room_id: { [OP.iLike]: `${username}` } } : null
+    const room = req.query.room_id
+    let condition = room ? { room_id: { [OP.iLike]: `${room_id}` } } : null
 
     Rooms.findAll({ where: condition })
         .then(data => {
